@@ -1,8 +1,0 @@
-[all:vars]
-ansible_ssh_common_args=' -o ProxyCommand="ssh -W %h:%p wbcgwy01"'
-[allservers]
-nzakuap120wbcr2 ansible_host=10.230.106.115 ansible_port=22
-wbcgwy01 ansible_host=10.234.89.107 ansible_port=22
-[amldev]
-nzakuap120wbcr2
-
