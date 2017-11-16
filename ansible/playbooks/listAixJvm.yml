@@ -13,7 +13,7 @@
 
 
     - name: list ManagedAppServers status
-      listJVM:  wasdir=/usr/WebSphere/AppServer profilename=nzakuap102wbcx2-maximo-node
+      listJVM:  wasdir=/usr/WebSphere/AppServer profilename=nodename
       become: true
       become_user: wasuser
 #      ansible_become_method: su
