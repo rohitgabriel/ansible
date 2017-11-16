@@ -1,0 +1,16 @@
+- name: Starts JVMs in WebSphere 8.5
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/was.yml
+  #become: false
+  tasks:
+
+    - name: start JVM's
+      startDmgr:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr 
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: startJVM
+    - debug: var=startJVM
+

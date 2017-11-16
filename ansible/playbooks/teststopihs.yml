@@ -1,0 +1,13 @@
+- name: Updates WebSphere products
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/ihs8patch.yml
+  #become: true
+  tasks:
+    - name: stop IHS
+      #systemd: name=ibmihs-others state=stopped
+      service: name=ibmihs-others state=stopped
+      become: true
+      become_user: root
+      register: stopIHS
+    - debug: var=stopIHS

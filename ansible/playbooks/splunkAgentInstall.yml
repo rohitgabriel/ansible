@@ -1,0 +1,16 @@
+- name: Install Splunk Agent 
+  hosts: "{{ variable_host }}"
+  become: true
+  tasks:
+
+    - name: Package Install
+      package:
+        name: SplunkForwarder
+        state: present
+
+    - name: copy 
+      copy:
+        src: /opt/IBM/HTTPServer/htdocs/certs/bpmcenter.kdb
+        dest: /var/tmp/bpmcenter.kdb
+
+

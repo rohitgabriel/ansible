@@ -1,0 +1,128 @@
+- name: Patching WAS7  
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/was7patch.yml
+  #become: false
+  tasks:
+
+
+    - name: list Dmgr status 
+      listDmgr:  wasdir="{{ was_install_dir }}" profilename=Dmgr 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: list ManagedAppServers status 
+      listJVM:  wasdir="{{ was_install_dir }}" profilename=ManagedAppServers 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: stop Dmgr
+      stopDmgr:  wasdir="{{ was_install_dir }}" profilename=Dmgr
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopDmgr
+    - debug: var=stopDmgr
+
+
+    - name: stop JVM's
+      stopJVM:  wasdir="{{ was_install_dir }}" profilename=ManagedAppServers
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopJVM
+    - debug: var=stopJVM
+
+    - name: Backup Dmgr profile
+      backupProfileConfig:  wasdir="{{ was_install_dir }}" profilename=Dmgr backupdir="{{ backupdir }}"
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: backupProfile
+    - debug: var=backupProfile
+
+
+    - name: Backup ManagedAppServers profile
+      backupProfileConfig:  wasdir="{{ was_install_dir }}" profilename=ManagedAppServers backupdir="{{ backupdir }}"
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: backupProfile
+    - debug: var=backupProfile
+
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ maintenance_dir }}"
+
+
+
+    - name: extract package
+      unarchive:
+        src: /opt/IBM/HTTPServer/htdocs/updi/updateinstaller-70043.zip
+        dest: "{{ maintenance_dir }}"
+#        remote_src: True
+
+    - name: copy fixpack
+      copy:
+        src: /opt/IBM/HTTPServer/htdocs/70043/7.0.0-WS-WAS-LinuxX64-FP0000043.pak
+        dest: "{{ package_dir }}"
+#        remote_src: True
+        mode: 0777 
+      with_items:
+        - "{{ was_fixpack_name }}"
+
+
+    - name: Create WAS responsefile 
+      template:
+        src: roles/common/templates/was7-patch-responsefile.j2
+        dest: "{{ responsefile_path}}/installWAS.txt"
+#        owner: wasuser
+#        group: wasgrp
+        mode: 0777
+
+    - name: Ifix or fixpack installation
+      was7patch: state=present updi_package_path="{{ binaries_dir }}" install_dir="{{ was_install_dir }}" maintenance_dir="{{ package_dir }}" responsefiles=installWAS.txt fixpack_name="{{ was_fixpack_name }}"
+      become: true
+      become_user: root 
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ maintenance_dir }}"
+        state: absent
+
+    - name: delete repo directories
+      file:
+        path: "{{ package_dir }}"
+        state: absent
+
+    - name: start Dmgr
+      startDmgr:  wasdir="{{ was_install_dir }}" profilename=Dmgr
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: startJVM
+    - debug: var=startJVM
+
+    - name: start JVM's
+      startJVM:  wasdir="{{ was_install_dir }}" profilename=ManagedAppServers
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: startJVM
+    - debug: var=startJVM
+

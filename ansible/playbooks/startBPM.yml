@@ -1,0 +1,16 @@
+- name: Starts JVMs in WebSphere 8.5
+  hosts: "{{ variable_host }}" 
+  #vars_files:
+  #  - roles/common/vars/iim.yml
+  #  - roles/common/vars/was.yml
+  #become: false
+  tasks:
+
+    - name: start BPM 
+      service: name=websphere state=started
+      no_log: false
+      become: true
+      become_user: wasuser 
+      register: startBPM
+    - debug: var=startBPM
+

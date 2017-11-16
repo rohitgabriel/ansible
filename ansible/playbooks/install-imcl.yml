@@ -1,0 +1,63 @@
+- name:  Installs Installation Manager
+  hosts: "{{ variable_host }}" 
+  vars_files:
+    - roles/common/vars/iim.yml
+  become: false
+  tasks:
+    - name: download agentinstaller with check (md5)
+      get_url:
+        url: http://192.168.1.200/{{ binary_package_name }}
+        #url: http://192.168.1.200/agent.installer.linux.gtk.x86_64_1.8.3000.20150606_0047.zip
+        dest: /tmp/agent.installer.linux.gtk.x86_64_1.8.3000.20150606_0047.zip
+        checksum: md5:c38770b2e4dddebeba828a00aa493efb
+
+    - name: create group and map user
+      group:
+        name: wasgrp 
+        state: present
+
+    - name: create user
+      user:
+        name: wasuser
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+        groups: wasgrp
+
+    - name: create directories for installation manager 
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: wasuser
+        group: wasgrp
+      with_items:
+        - "{{ base_dir }}"
+        - "{{ im_dir }}"
+        - "{{ imagentdata_dir }}"
+        - "{{ imshared_dir }}"
+        - "{{ im_binaries_dir }}"
+
+    - name: Install unzip package
+      package:
+        name: unzip
+        state: present
+
+    - name: extract package
+      unarchive:
+        src: http://192.168.1.200/agent.installer.linux.gtk.x86_64_1.8.3000.20150606_0047.zip
+        dest: "{{ im_binaries_dir }}" 
+        #dest: /tmp/remotesrc
+        remote_src: True  
+
+    - template:
+        src: roles/common/templates/im-responsefile.j2
+        dest: "{{ im_binaries_dir }}/install.xml"
+        owner: wasuser
+        group: wasgrp
+        mode: '0600'
+
+    - name: Install imcl
+      command: '"{{ im_binaries_dir }}"/userinstc -log "{{ im_binaries_dir }}"/instman.log -acceptLicense -dataLocation "{{ imagentdata_dir }}"' 
+      register: install
+    - debug: var=install 

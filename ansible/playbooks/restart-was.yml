@@ -1,0 +1,57 @@
+- name: Stop all WebSphere JVM's  
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/was7patch.yml
+  #become: false
+  tasks:
+
+
+    - name: list Dmgr status 
+      listDmgr:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=Dmgr 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: list ManagedAppServers status 
+      listJVM:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=ManagedAppServers 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: stop Dmgr
+      stopDmgr:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=Dmgr
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopDmgr
+    - debug: var=stopDmgr
+
+
+    - name: stop JVM's
+      stopJVM:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=ManagedAppServers
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopJVM
+    - debug: var=stopJVM
+
+    - name: start Dmgr
+      startDmgr:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=Dmgr
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: startJVM
+    - debug: var=startJVM
+
+    - name: start JVM's
+      startJVM:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=ManagedAppServers
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: startJVM
+    - debug: var=startJVM
+

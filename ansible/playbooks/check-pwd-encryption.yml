@@ -1,0 +1,20 @@
+- name: Setting ISEC security OSR ownerships
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/was.yml
+  become: true
+  tasks:
+
+
+    - name: read the passwd file
+      shell:  awk -F '{xor}' '{print $2}' "{{ PropertiesDmgr }}/{{ soap_client_props }}"  | awk 'NF > 0' | wc -l
+      register: enc_count
+
+    - name: a task that only happens if the pwd is encrypted 
+      when: enc_count.stdout > 1 
+      debug: msg="pwd is encrypted"
+
+
+
+

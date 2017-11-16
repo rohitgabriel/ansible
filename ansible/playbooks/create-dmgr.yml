@@ -1,0 +1,26 @@
+- name: creates DMGR profile on WASND 8.5
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/was.yml
+  become: false
+  tasks:
+
+
+    - name: list JVM's
+      listJVM:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=dmgr username=admin password=admin
+      #profile_dmgr: state=present wasdir=/opt/IBM/WebSphere/AppServer/ name=dmgr cell_name=devCell host_name=localhost node_name=devcell-dmgr username=admin password=admin
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: stop JVM's
+      stopJVM:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=dmgr username=admin password=admin
+      #profile_dmgr: state=present wasdir=/opt/IBM/WebSphere/AppServer/ name=dmgr cell_name=devCell host_name=localhost node_name=devcell-dmgr username=admin password=admin
+      register: stopJVM
+    - debug: var=stopJVM
+
+    - name: start JVM's
+      startJVM:  wasdir=/opt/IBM/WebSphere/AppServer/ profilename=dmgr
+      #profile_dmgr: state=present wasdir=/opt/IBM/WebSphere/AppServer/ name=dmgr cell_name=devCell host_name=localhost node_name=devcell-dmgr username=admin password=admin
+      register: startJVM
+    - debug: var=startJVM

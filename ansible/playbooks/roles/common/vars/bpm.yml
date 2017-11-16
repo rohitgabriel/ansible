@@ -1,0 +1,47 @@
+
+
+
+#Input the users as variables
+wasuser: wasuser
+wasgrp: wasgrp
+root: root
+rootgrp: root 
+
+#For the servers that don't have batch user, please enter root user and group
+batchuser: root
+batchgrp: root
+
+#Following Variables are required
+InstallRoot: /opt/IBM/WebSphere/BPM/v8.0
+DmgrName: Dmgr
+ProfileName: ManagedAppServers 
+CellName: x1ibpmCell 
+
+#Following are derived values -- DO NOT CHANGE
+ProfilePATH: "{{ InstallRoot }}/profiles"
+PropertiesDmgr: "{{ ProfilePATH }}/{{ DmgrName }}/properties"
+PropertiesNode: "{{ ProfilePATH }}/{{ ProfileName }}/properties"
+PropertiesBase: "{{ InstallRoot }}/properties"
+BINDIRS: "{{ InstallRoot }}/bin"
+PROFILEBINDIRS: "{{ ProfilePATH }}/{{ ProfileName }}/bin"
+DMGRBINDIRS: "{{ ProfilePATH }}/{{ DmgrName }}/bin"
+SecurityDmgrPATH: "{{ ProfilePATH }}/{{ DmgrName }}/config/cells/{{ CellName }}/security.xml"
+SecurityPATH: "{{ ProfilePATH }}/{{ ProfileName }}/config/cells/{{ CellName }}/security.xml"
+LogPATH: /var/log/websphere
+
+#List of property files 
+tracesettings: TraceSettings.properties
+clientpolicy: client.policy 
+client_types: client_types.xml
+implfactory: implfactory.properties
+sas_client_props: sas.client.props
+sas_stdclient_props: sas.stdclient.properties
+sas_tools_props: sas.tools.properties
+soap_client_props: soap.client.props
+wsadmin_properties: wsadmin.properties
+wsjass_client_conf: wsjaas_client.conf
+ipc_client_props: ipc.client.props
+
+
+
+ 

@@ -1,0 +1,17 @@
+- name: Lists JVMs in WebSphere 8.5
+  hosts: "{{ variable_host }}"
+#  vars_files:
+#    - roles/common/vars/iim.yml
+#    - roles/common/vars/was.yml
+  #become: false
+  #environment:
+  #  PATH: "{{ ansible_env.PATH }}:/opt/python2.7/bin"
+  tasks:
+
+
+    - name: list ManagedAppServers status
+      listJVM:  wasdir=/opt/IBM/WebSphere/AppServer profilename=ManagedAppServers
+      become: true
+      become_user: wasuser
+      register: serverstatus
+    - debug: var=serverstatus

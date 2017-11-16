@@ -1,0 +1,115 @@
+[all:vars]
+ansible_ssh_common_args=' -o ProxyCommand="ssh -W %h:%p wbcgwy01"'
+[allservers]
+wbcgwy01 ansible_host=10.234.89.107 ansible_port=22
+nzakuap002wbcr2 ansible_host=nzakuap002wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap018wbcr2 ansible_host=nzakuap018wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap034wbcr2 ansible_host=nzakuap034wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap035wbcr2 ansible_host=nzakuap035wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap039wbcr2 ansible_host=nzakuap039wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap040wbcr2 ansible_host=nzakuap040wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap045wbcr2 ansible_host=nzakuap045wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap050wbcr2 ansible_host=nzakuap050wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap051wbcr2 ansible_host=nzakuap051wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap052wbcr2 ansible_host=nzakuap052wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap053wbcr2 ansible_host=nzakuap053wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap060wbcr2 ansible_host=nzakuap060wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap061wbcr2 ansible_host=nzakuap061wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap062wbcr2 ansible_host=nzakuap062wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap063wbcr2 ansible_host=nzakuap063wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap064wbcr2 ansible_host=nzakuap064wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap071wbcr2 ansible_host=nzakuap071wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap072wbcr2 ansible_host=nzakuap072wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap117wbcr2 ansible_host=nzakuap117wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap118wbcr2 ansible_host=nzakuap118wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap119wbcr2 ansible_host=nzakuap119wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap120wbcr2 ansible_host=nzakuap120wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap121wbcr2 ansible_host=nzakuap121wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap122wbcr2 ansible_host=nzakuap122wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap165wbcr2 ansible_host=nzakuap165wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap166wbcr2 ansible_host=nzakuap166wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap207wbcr2 ansible_host=nzakuap207wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap208wbcr2 ansible_host=nzakuap208wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap209wbcr2 ansible_host=nzakuap209wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap210wbcr2 ansible_host=nzakuap210wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap216wbcr2 ansible_host=nzakuap216wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap217wbcr2 ansible_host=nzakuap217wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap218wbcr2 ansible_host=nzakuap218wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap219wbcr2 ansible_host=nzakuap219wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap220wbcr2 ansible_host=nzakuap220wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap221wbcr2 ansible_host=nzakuap221wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap222wbcr2 ansible_host=nzakuap222wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap223wbcr2 ansible_host=nzakuap223wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap224wbcr2 ansible_host=nzakuap224wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap225wbcr2 ansible_host=nzakuap225wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap227wbcr2 ansible_host=nzakuap227wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap228wbcr2 ansible_host=nzakuap228wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap240wbcr2 ansible_host=nzakuap240wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap310wbcr2 ansible_host=nzakuap310wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap311wbcr2 ansible_host=nzakuap311wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap361wbcr2 ansible_host=nzakuap361wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap374wbcr2 ansible_host=nzakuap374wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap443wbcr2 ansible_host=nzakuap443wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap615wbcr2 ansible_host=nzakuap615wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap616wbcr2 ansible_host=nzakuap616wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap617wbcr2 ansible_host=nzakuap617wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap618wbcr2 ansible_host=nzakuap618wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap619wbcr2 ansible_host=nzakuap619wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap620wbcr2 ansible_host=nzakuap620wbcr2.elinux.westpac.co.nz ansible_port=22
+nzakuap629wbcr2 ansible_host=nzakuap629wbcr2.elinux.westpac.co.nz ansible_port=22
+[mqallservers] 
+nzakuap002wbcr2
+nzakuap018wbcr2
+nzakuap034wbcr2
+nzakuap035wbcr2
+nzakuap039wbcr2
+nzakuap040wbcr2
+nzakuap045wbcr2
+nzakuap050wbcr2
+nzakuap051wbcr2
+nzakuap052wbcr2
+nzakuap053wbcr2
+nzakuap060wbcr2
+nzakuap061wbcr2
+nzakuap062wbcr2
+nzakuap063wbcr2
+nzakuap064wbcr2
+nzakuap071wbcr2
+nzakuap072wbcr2
+nzakuap117wbcr2
+nzakuap118wbcr2
+nzakuap119wbcr2
+nzakuap120wbcr2
+nzakuap121wbcr2
+nzakuap122wbcr2
+nzakuap165wbcr2
+nzakuap166wbcr2
+nzakuap207wbcr2
+nzakuap208wbcr2
+nzakuap209wbcr2
+nzakuap210wbcr2
+nzakuap216wbcr2
+nzakuap217wbcr2
+nzakuap218wbcr2
+nzakuap219wbcr2
+nzakuap220wbcr2
+nzakuap221wbcr2
+nzakuap222wbcr2
+nzakuap223wbcr2
+nzakuap224wbcr2
+nzakuap225wbcr2
+nzakuap227wbcr2
+nzakuap228wbcr2
+nzakuap240wbcr2
+nzakuap310wbcr2
+nzakuap311wbcr2
+nzakuap361wbcr2
+nzakuap374wbcr2
+nzakuap443wbcr2
+nzakuap615wbcr2
+nzakuap616wbcr2
+nzakuap617wbcr2
+nzakuap618wbcr2
+nzakuap619wbcr2
+nzakuap620wbcr2
+nzakuap629wbcr2

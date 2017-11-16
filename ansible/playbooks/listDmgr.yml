@@ -1,0 +1,17 @@
+- name: Lists Dmgr status  
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/was.yml
+  #become: false
+  tasks:
+
+
+    - name: list Dmgr status 
+      listDmgr:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+

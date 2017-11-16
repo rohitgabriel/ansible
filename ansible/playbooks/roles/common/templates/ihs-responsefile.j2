@@ -1,0 +1,19 @@
+<agent-input clean="true" temporary="true">
+<server>
+<repository location='{{ ihs_binaries_dir }}'/>
+</server>
+<install modify='false'>
+<offering id='{{ ihs_offering_id }}'
+ profile='{{ ihs_description }}'
+ features='{{ ihs_features }}' installFixes='none'/>
+</install>
+<profile id='{{ ihs_description }}'
+ installLocation='{{ ihs_install_dir }}'>
+<data key='eclipseLocation' value='{{ ihs_install_dir }}'/>
+<data key='user.import.profile' value='false'/>
+<data key='cic.selector.nl' value='en'/>
+<data key='user.ihs.httpPort' value='80'/>
+<data key='user.ihs.allowNonRootSilentInstall' value='true'/>
+</profile>
+<preference name='com.ibm.cic.common.core.preferences.eclipseCache' value='{{ imshared_dir }}'/>
+<preference name='com.ibm.cic.common.core.preferences.preserveDownloadedArtifacts' value='false'/> </agent-input>

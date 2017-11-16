@@ -1,0 +1,22 @@
+- name: Kill a process 
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/killprocess.yml
+  #become: true
+  tasks:
+    - name: Get running processes
+      shell: "ps -ef | grep -v grep | grep -w {{ PROCESS }} | awk '{print $2}'"
+      register: running_processes
+
+    - name: Kill running processes
+      shell: "kill {{ item }}"
+      with_items: "{{ running_processes.stdout_lines }}"
+      become: true
+      become_user: wasuser
+
+    - name: Waiting until all running processes are killed
+      wait_for:
+        path: "/proc/{{ item }}/status"
+        state: absent
+      with_items: "{{ running_processes.stdout_lines }}" 
+

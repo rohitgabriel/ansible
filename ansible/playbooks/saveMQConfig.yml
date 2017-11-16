@@ -1,0 +1,34 @@
+- name: Patch MQ
+  hosts: "{{ variable_host }}" 
+  vars_files:
+    - roles/common/vars/mq.yml
+  #become: true
+  tasks:
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ mq_binaries_dir }}"
+        - "{{ mq_backup_dir }}"
+      become: true
+      become_user: "{{ mqmuser }}"
+
+    - name: copy saveqmgr
+      copy:
+        src: "{{ source_dir }}/{{ item }}"
+        dest: "{{ mq_backup_dir }}"
+        mode: 0777
+      with_items:
+        - "{{ saveqmgr_name }}"
+
+    - name: Save running QMGR config
+      script: roles/common/scripts/saveMQConfig.sh
+      args:
+        chdir: "{{ mq_backup_dir }}"
+      become: true
+      become_user: "{{ mqmuser }}"
+      ignore_errors: yes
+

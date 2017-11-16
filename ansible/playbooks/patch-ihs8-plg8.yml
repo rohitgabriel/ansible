@@ -1,0 +1,73 @@
+- name: Updates WebSphere products
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/ihs8patch.yml
+  #become: true
+  tasks:
+
+    - name: Backup ihs
+      become: true
+      become_user: root 
+      command: 'tar -cvzf "{{ backup_dir }}"/HTTPServer.tgz "{{ install_dir }}"   --exclude="{{ install_dir }}"/logs  --exclude="{{ install_dir }}"/properties/version/nif/backup --exclude="{{ install_dir }}"/Plugins/properties/version/nif/backup'
+      register: install
+    - debug: var=install
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+      become: true
+      become_user: root
+
+    - name: extract package
+      unarchive:
+        src: "{{ source_dir }}/{{ item }}"
+        dest: "{{ im_binaries_dir }}"
+      with_items:
+        - "{{ fixpackage1 }}"
+        - "{{ fixpackage2 }}"
+        - "{{ fixpackage3 }}"
+      become: true
+      become_user: root
+
+#    - name: copy fixpack
+#      copy:
+#        src: /opt/IBM/HTTPServer/htdocs/70043/{{ fixpack_name }}
+#        dest: "{{ package_dir }}"
+#        remote_src: True
+#        mode: 0777
+#      with_items:
+#        - "{{ _fixpack_name }}"
+
+    - name: stop IHS
+      systemd: name=ibmihs state=stopped
+      #service: name=ibmihs state=stopped
+      become: true
+      become_user: root
+      register: stopIHS
+    - debug: var=stopIHS
+
+
+    - name: IHS Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ ihs_offering_id }}" repo="{{ im_binaries_dir }}" dest="{{ ihs_install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: Plugin Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ plg_offering_id }}" repo="{{ im_binaries_dir }}" dest="{{ plg_install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+      become: true
+      become_user: root

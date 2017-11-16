@@ -1,0 +1,399 @@
+- name: Updates WebSphere products
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/bpmpatch.yml
+  become: true
+  tasks:
+
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage1 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp1_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage2 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp2_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage3 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp3_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage4 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp4_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage5 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp5_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage6 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp6_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage7 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp7_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage8 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp8_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage9 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp9_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage10 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp10_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage11 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp11_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage12 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp12_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage13 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp13_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage14 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp14_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent

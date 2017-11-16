@@ -1,0 +1,44 @@
+- name: Stop all WebSphere JVM's  
+  hosts: "{{ variable_host }}"
+  #vars_files:
+  #  - roles/common/vars/iim.yml
+  #  - roles/common/vars/was.yml
+  #become: false
+  tasks:
+
+
+    - name: list Dmgr status 
+      listDmgr:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: list ManagedAppServers status 
+      listJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=ManagedAppServers 
+      become: true
+      become_user: wasuser 
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: stop Dmgr
+      stopDmgr:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopDmgr
+    - debug: var=stopDmgr
+
+
+    - name: stop JVM's
+      stopJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=ManagedAppServers
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopJVM
+    - debug: var=stopJVM
+
+
+

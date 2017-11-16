@@ -1,0 +1,19 @@
+<agent-input clean="true" temporary="true">
+<server>
+<repository location='{{ was_binaries_dir }}' />
+</server>
+<install modify='false'>
+<offering id='{{ was_offering_id }}'
+  profile='{{ was_description }}'
+  features='{{ was_features }}' installFixes='none'/>
+</install>
+<profile id='{{ was_description }}'
+  installLocation='{{ was_install_dir }}'>
+<data key='eclipseLocation' value='{{ was_install_dir }}'/>
+<data key='user.import.profile' value='false'/>
+<data key='cic.selector.nl' value='en'/>
+</profile>
+<preference name='com.ibm.cic.common.core.preferences.eclipseCache' value='{{ imshared_dir }}'/>
+<preference name='com.ibm.cic.common.core.preferences.preserveDownloadedArtifacts' value='false'/>
+</agent-input>
+

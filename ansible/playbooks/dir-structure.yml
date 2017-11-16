@@ -1,0 +1,53 @@
+- name: Sample playbook structure
+  hosts: localhost
+  become: false
+  tasks:
+    - name: create directory structure
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: roxo
+        group: roxo 
+      with_items:
+        - ./production
+        - ./dev
+        - ./group_vars
+        - ./group_vars/group1
+        - ./group_vars/group2
+        - ./host_vars
+        - ./host_vars/hostname1
+        - ./host_vars/hostname2
+        - ./library
+        - ./module_utils
+        - ./filter_plugins
+        - ./roles
+        - ./roles/common
+        - ./roles/common/tasks
+        - ./roles/common/handlers
+        - ./roles/common/templates
+        - ./roles/common/files
+        - ./roles/common/vars
+        - ./roles/common/defaults
+        - ./roles/common/meta
+        - ./roles/common/library
+        - ./roles/common/module_utils
+        - ./roles/common/lookup_plugins
+    - name: create files 
+      file:
+        path: "{{ item }}"
+        state: touch
+        mode: 0644
+        owner: roxo
+        group: roxo 
+      with_items:
+        - site.yml
+        - main.yml
+        - ./roles/common/tasks/main.yml
+        - ./roles/common/handlers/main.yml
+        - ./roles/common/templates/sample.conf.j2
+        - ./roles/common/files/sample-src-file.txt
+        - ./roles/common/vars/main.yml
+        - ./roles/common/defaults/main.yml
+        - ./roles/common/meta/main.yml
+        

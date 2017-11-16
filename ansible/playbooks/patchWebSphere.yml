@@ -1,0 +1,45 @@
+- name: Updates WebSphere products 
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/patch.yml
+  become: true
+  tasks:
+
+
+    - name: create repo directories 
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+#        owner: wasuser 
+#        group: wasgrp
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}" 
+        remote_src: True
+      with_items:
+        - "{{ fixpackage1 }}"
+        #- "{{ fixpackage2 }}"
+        #- "{{ fixpackage3 }}"
+
+#    - name: Ifix or fixpack installation 
+#      patchWithImcl: state=present ibmim=/opt/IBM/WebSphere/InstallationManager offering="{{ fp1_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}" 
+      #logdir="{{ logdir }}/{{ fixpackage1 }}" 
+      #username=admin password=admin
+#      become: true
+#      become_user: root 
+#      #no_log: true
+#      register: ifix 
+#    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent 
+
+

@@ -1,0 +1,27 @@
+- name: Setting ISEC security OSR ownerships
+  hosts: "{{ variable_host }}" 
+  vars_files:
+    - roles/common/vars/ihs.yml
+  become: true
+  tasks:
+
+
+    - name: Set ownership for install root recursively
+      file:
+        path: "{{ InstallRoot }}"
+        state: directory
+#        mode: 0755
+        recurse: yes
+        owner: "{{ ihs }}"
+        group: "{{ ihsgrp }}" 
+
+
+
+    - name: Set ownership for install root recursively
+      file:
+        path: /opt/IBM/Plugins
+        state: directory
+#        mode: 0755
+        recurse: yes
+        owner: "{{ ihs }}"
+        group: "{{ ihsgrp }}"

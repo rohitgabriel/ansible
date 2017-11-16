@@ -1,0 +1,26 @@
+#health check variables
+InstPath: /opt/mqm
+DataPath: /var/mqm
+tmp_patch: /tmp
+find_what: "*ans-mqhealthcheck.txt"
+find_where: "/tmp"
+shc_dest: /opt/artifacts/shc/MQ/
+
+
+#MQ patching variables
+mq_binaries_dir: /tmp/mqpatch
+mq_backup_dir: /var/tmp/mqbackup
+
+source_dir: /opt/IBM/HTTPServer/htdocs/MQ/
+fixpackage1: 7.5.0-WS-MQ-LinuxX64-FP0008.tar.gz
+saveqmgr_name: saveqmgr64.linux
+listrpmfile: /var/tmp/installed-mqrpm.txt
+listqmgrfile: /var/tmp/runningqmgr.txt
+mqmfiledir: /var/tmp/runningqmgr.txt
+installscript: /var/tmp/installMQRPM.sh
+
+
+mqmuser: mqm
+superuser: root
+
+

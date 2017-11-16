@@ -1,0 +1,25 @@
+im_dir: /opt/IBM/InstallationManager
+bpm_im_dir: /opt/IBM/WebSphere/InstallationManager
+
+imagentdata_dir: /opt/IBM/IMAgentData
+imshared_dir: /opt/IBM/IMShared
+
+
+backup_dir: /tmp/patch/
+#im_binaries_dir: /opt/IBM/HTTPServer/temp
+im_binaries_dir: /tmp/patch/backup
+install_dir: /opt/IBM/HTTPServer
+ihs_install_dir: /opt/IBM/HTTPServer
+plg_install_dir: /opt/IBM/Plugins/
+
+
+
+source_dir: /opt/Middleware/FP8.5.5.12/ 
+fixpackage1: 8.5.5-WS-WASSupplements-FP012-part1.zip
+fp1_rname: 8.5.5-WS-WASSupplements-FP012-part1
+fixpackage2: 8.5.5-WS-WASSupplements-FP012-part2.zip
+fp2_rname: 8.5.5-WS-WASSupplements-FP012-part2
+fixpackage3: 8.5.5-WS-WASSupplements-FP012-part3.zip
+fp3_rname: 8.5.5-WS-WASSupplements-FP012-part3
+ihs_offering_id: com.ibm.websphere.IHS.v85_8.5.5012.20170627_1018
+plg_offering_id: com.ibm.websphere.PLG.v85_8.5.5012.20170627_1018

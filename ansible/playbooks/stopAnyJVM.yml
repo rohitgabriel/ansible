@@ -1,0 +1,26 @@
+- name: stops JVMs in WebSphere 8.5
+  hosts: "{{ variable_host }}"
+#  vars_files:
+#    - roles/common/vars/iim.yml
+#    - roles/common/vars/was.yml
+  #become: false
+  tasks:
+
+    - name: stop Dmgr 
+      stopAnyJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr jvmname=dmgr
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopDmgr
+    - debug: var=stopDmgr
+
+
+    - name: stop Nodeagent 
+      stopAnyJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=ManagedAppServers jvmname=nodeagent
+      #username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stop
+    - debug: var=stop

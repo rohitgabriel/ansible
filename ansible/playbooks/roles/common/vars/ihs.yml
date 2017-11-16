@@ -1,0 +1,28 @@
+ihs_install_dir: /opt/IBM/HTTPServer/
+
+
+#Input the users as variables
+ihs: ihs
+ihsgrp: ihs
+root: root
+rootgrp: root 
+
+#For the servers that don't have batch user, please enter root user and group
+batchuser: root
+batchgrp: root
+
+#Following Variables are required
+InstallRoot: /opt/IBM/HTTPServer
+
+#Following are derived values -- DO NOT CHANGE
+ConfPATH: "{{ InstallRoot }}/conf"
+LogPATH: "{{ InstallRoot }}/logs" 
+KeysPATH: "{{ InstallRoot }}/keys"
+CgiPATH: "{{ InstallRoot }}/cgi-bin"
+BinPATH: "{{ InstallRoot }}/bin" 
+ModulePATH: "{{ InstallRoot }}/modules"
+
+
+
+
+ 

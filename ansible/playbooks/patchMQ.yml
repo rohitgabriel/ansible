@@ -1,0 +1,94 @@
+- name: Patch MQ
+  hosts: "{{ variable_host }}" 
+  vars_files:
+    - roles/common/vars/mq.yml
+  #become: true
+  tasks:
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ mq_binaries_dir }}"
+        - "{{ mq_backup_dir }}"
+      become: true
+      become_user: "{{ superuser }}"
+
+    - name: extract package
+      unarchive:
+        src: "{{ source_dir }}/{{ item }}"
+        dest: "{{ mq_binaries_dir }}"
+      with_items:
+        - "{{ fixpackage1 }}"
+      become: true
+      become_user: "{{ superuser }}"
+
+    - name: copy saveqmgr
+      copy:
+        src: "{{ source_dir }}/{{ item }}"
+        dest: "{{ mq_backup_dir }}"
+        mode: 0777
+      with_items:
+        - "{{ saveqmgr_name }}"
+
+    - name: Save running QMGR config
+      script: roles/common/scripts/saveMQConfig.sh
+      args:
+        chdir: "{{ mq_backup_dir }}"
+      become: true
+      become_user: "{{ mqmuser }}"
+      ignore_errors: yes
+
+    - name: list Installed RPM packages
+      listInstalledRPM:  word1=MQSeries word2=gsk listrpmfile={{ listrpmfile }}
+      become: true
+      become_user: "{{ mqmuser }}"
+
+    - name: list Qmgr status
+      listQmgr:  mqmdir="{{ InstPath }}" listqmgrfile={{ listqmgrfile }}
+      become: true
+      become_user: "{{ mqmuser }}"
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: stop Qmgr
+      stopQmgr:  mqmfiledir={{ mqmfiledir }} state=present
+      become: true
+      become_user: "{{ mqmuser }}"
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: Clean MQ shared proesses
+      script: roles/common/scripts/cleanMqSharedProcess.sh
+      become: true
+      become_user: "{{ superuser }}"
+
+    - name: copy install script
+      copy:
+        src: roles/common/scripts/installMQRPM.sh
+        dest: /var/tmp/
+        mode: 0777
+
+    - name: Install MQ RPM that are previously installed
+      patchMQRPM:  installedrpmfile={{ listrpmfile }} mqmdir="{{ InstPath }}" installscript={{ installscript }} state=present
+      become: true
+      become_user: "{{ superuser }}"
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: start Qmgr
+      startQmgr:  mqmfiledir={{ mqmfiledir }} state=present
+      become: true
+      become_user: "{{ mqmuser }}"
+      register: serverstatus
+    - debug: var=serverstatus
+
+
+    - name: delete repo directories
+      file:
+        path: "{{ mq_binaries_dir }}"
+        state: absent
+      become: true
+      become_user: "{{ superuser }}"

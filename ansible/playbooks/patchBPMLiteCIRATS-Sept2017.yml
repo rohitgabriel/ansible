@@ -1,0 +1,148 @@
+- name: Updates WebSphere products
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/bpmlitepatch.yml
+  become: true
+  tasks:
+
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage1 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ fp1_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage2 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ fp2_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage3 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ fp3_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage4 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ fp4_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ im_binaries_dir }}"
+
+    - name: extract package
+      unarchive:
+        src: http://10.230.232.249/{{ sourcedir }}/{{ item }}
+        dest: "{{ im_binaries_dir }}"
+        remote_src: True
+      with_items:
+        - "{{ fixpackage5 }}"
+
+    - name: Ifix or fixpack installation
+      patchWithImcl: state=present ibmim="{{ im_dir }}" offering="{{ fp5_rname }}" repo="{{ im_binaries_dir }}" dest="{{ install_dir }}"
+      become: true
+      become_user: root
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ im_binaries_dir }}"
+        state: absent
+

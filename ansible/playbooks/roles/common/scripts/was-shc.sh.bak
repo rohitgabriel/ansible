@@ -1,0 +1,304 @@
+#!/bin/sh
+NODE=`uname -n`
+DATE=`date +%d-%m-20%y`
+echo "
+<html>
+<body>
+<pre>
+*******************************************************
+* performing health check of Websphere on $NODE
+* Run on $DATE
+* GSDappendix AS WebSphere Application Servers
+*****************************************************
+Key: Text in green is comments/descriptions, Text in blue are commands run, Text in black is results from commands
+
+
+
+"
+InstallRoot=/opt/IBM/WebSphere/BPM/v8.0
+ProfilePATH=$InstallRoot/profiles
+PropertiesNode=$ProfilePATH/ManagedAppServers/properties
+PropertiesDmgr=$ProfilePATH/Dmgr/properties
+PropertiesBase=$InstallRoot/properties
+CellName=x1ibpmCell
+BINDIRS=$InstallRoot/bin
+PROFILEBINDIRS=$InstallRoot/profiles/ManagedAppServers/bin
+DMGRBINDIRS=$InstallRoot/profiles/Dmgr/bin
+SecurityPATH=$ProfilePATH/Dmgr/config/cells/$CellName/security.xml
+#LogPATH=/var/log/websphere
+
+
+echo "<font size=5>AS.1.2.3 Protecting Resources - OSRs</font>"
+echo "<font color=green>Looking for appserver files with incorrect file owners and permissions....If no files listed, then all files compliant</font>"
+echo "<font color=blue>find $InstallRoot/ -type f \( \( ! -user wasuser -a ! -user root -a ! -user ctm_bop \) -o \( ! -group wasgrp -a ! -group system -a ! -group cntlmapp \) -o \(  -perm -2 \) \) -exec ls -l \;</font>"
+
+echo "<font color=black>  "
+find $InstallRoot -type f \( \( ! -user wasuser -a ! -user root -a ! -user ctm_bop \) -o \( ! -group wasgrp -a ! -group system -a ! group cntlmapp \) -o \( -perm -2 \) \) -exec ls -l {} \;
+echo "</font>"
+echo "<font color=blue>find $InstallRoot -type f \( \( ! -user wasuser -a ! -user root -a ! -user ctm_bop \) -o \( ! -group wasgrp -a ! -group system -a ! group cntlmapp \) -o \( -perm -2 \) \) -exec ls -l \;</font>"
+
+echo "<font color=black>  "
+find $InstallRoot -type f \( \( ! -user wasuser -a ! -user root -a ! -user ctm_bop \) -o \( ! -group wasgrp -a ! -group system -a ! group cntlmapp \) -o \( -perm -2 \) \) -exec ls -l {} \;
+echo "</font>"
+echo
+echo
+echo "<font colore=green>Looking for property files with incorrect file permissions... if no files listed, then all files compliant</font>"
+
+echo "<font color=blue>find $PropertiesBase/TraceSettings.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesBase/ -name TraceSettings.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/TraceSettings.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name TraceSettings.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/client.policy \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name client.policy \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/client.policy \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name client.policy \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesBase/client_types.xml \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesBase -name client_types.xml \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/client_types.xml \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name client_types.xml \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesBase/implfactory.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesBase/ -name implfactory.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/implfactory.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name implfactory.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/sas.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name sas.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/sas.stdclient.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name sas.stdclient.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/sas.stdclient.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name sas.stdclient.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/sas.tools.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name sas.tools.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/sas.tools.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name sas.tools.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/soap.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name soap.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/soap.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name soap.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/wsadmin.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name wsadmin.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find i$PropertiesNode/wsadmin.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name wsadmin.properties \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/wsjaas_client.conf \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name wsjaas_client.conf \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/wsjaas_client.conf \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</font>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name wsjaas_client.conf \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $PropertiesNode/ipc.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</f
+ont>"
+echo "<font color=black>  "
+find $PropertiesNode/ -name ipc.client.props \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>find $ProfilePATH/Dmgr/config/cells/*Cell/security.xml \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;</f
+ont>"
+echo "<font color=black>  "
+find $ProfilePATH/Dmgr/config/cells/$CellName/ -name security.xml \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -exec ls -l {} \;
+echo "</font>"
+
+echo "<font color=blue>Checking read access for others to JVM logs</font>"
+echo "<font color=black>  "
+find $LogPATH/*/*Server* -name "*log"  \( \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) -ls;
+echo "</font>"
+echo
+echo "<font color=green>Access to admin console - controlled by WestPac LAN id</font>"
+echo "<font color=green>Document Root - not serving static content</font>"
+echo "<font color=green>Digital certifcates - managed by Technology Security Administration Team</font>"
+echo
+echo "<font color=green>Sample Applications should not exist on PROD servers... if no files listed, then all compliant ( applies to PROD only )</font>"
+
+echo "<font color=blue>ls -ld $InstallRoot/*/samples</font>"
+ls -ld $InstallRoot/*/samples
+
+echo "<font color=blue>ls -ld $InstallRoot/*/examples</font>"
+ls -ld $InstallRoot/*/examples
+
+echo
+echo "<font color=green>Checking permissions of admin tool scripts with passwords  in them  - if no files listed, then all files compliant ( includes backup files )</font>"
+#scripts to find files that are not  security compliant
+#
+# Make sure we are in the correct directory to start
+
+
+for DIR in $BINDIRS
+do
+        cd $DIR
+###"Changing to directory $DIR"###
+                #  Files with incorrrect perms will be identified
+                FILES=`find $BINDIRS -type f \( \( ! -user wasuser -o ! -group wasgrp \) -o \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \)
+`
+
+                for FILE in $FILES
+                do
+
+                                 /bin/grep -il 'Password={xor}' $FILE && ls -l $FILE | awk '{ print $1, $9 }'
+
+                done
+
+done
+
+
+
+for DIR in $BINDIRS
+do
+        cd $DIR
+###"Changing to directory $DIR"###
+                #  Files with incorrrect perms will be identified
+                FILES=`find $BINDIRS -type f \( \( ! -user wasuser -o ! -group wasgrp \) -o \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \) `
+
+                for FILE in $FILES
+                do
+
+                                 /bin/grep -il 'Password="{xor}' $FILE && ls -l $FILE | awk '{ print $1, $9 }'
+
+                done
+
+done
+
+
+
+
+for DIR in $PROFILEBINDIRS
+do
+        cd $DIR
+###"Changing to directory $DIR"###
+                #  Files with incorrrect perms will be identified
+                FILES=`find $PROFILEBINDIRS -type f \( \( ! -user wasuser -o ! -group wasgrp \) -o \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \)`
+
+                for FILE in $FILES
+                do
+
+                                 /bin/grep -il 'Password={xor}' $FILE && ls -l $FILE | awk '{ print $1, $9 }'
+
+                done
+
+done
+
+
+
+
+for DIR in $PROFILEBINDIRS
+do
+        cd $DIR
+###"Changing to directory $DIR"###
+                #  Files with incorrrect perms will be identified
+                FILES=`find $PROFILEBINDIRS -type f \( \( ! -user wasuser -o ! -group wasgrp \) -o \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \)`
+
+                for FILE in $FILES
+                do
+
+                                 /bin/grep -il 'Password="{xor}' $FILE && ls -l $FILE | awk '{ print $1, $9 }'
+
+                done
+
+done
+
+
+
+
+
+for DIR in $DMGRBINDIRS
+do
+        cd $DIR
+###"Changing to directory $DIR"###
+                #  Files with incorrrect perms will be identified
+                FILES=`find $DMGRBINDIRS -type f \( \( ! -user wasuser -o ! -group wasgrp \) -o \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \)`
+
+                for FILE in $FILES
+                do
+
+                                 /bin/grep -il 'Password={xor}' $FILE && ls -l $FILE | awk '{ print $1, $9 }'
+
+                done
+
+done
+
+
+
+
+for DIR in $DMGRBINDIRS
+do
+        cd $DIR
+###"Changing to directory $DIR"###
+                #  Files with incorrrect perms will be identified
+                FILES=`find $DMGRBINDIRS -type f \( \( ! -user wasuser -o ! -group wasgrp \) -o \( -perm -1 \) -o \( -perm -2 \) -o \( -perm -4 \) \)`
+
+                for FILE in $FILES
+                do
+
+                                 /bin/grep -il 'Password="{xor}' $FILE && ls -l $FILE | awk '{ print $1, $9 }'
+
+                done
+
+done
+
+echo "<font color=blue>Checking to see if the password is encrypted in soap.client.props. Output of 0 indicates non-encrypted password, Output > 0 indicates encrypted password"
+echo "grep -c loginPassword={xor} $ProfilePATH/*/properties/soap.client.props"
+echo "Output:"
+grep -c 'loginPassword={xor}' $ProfilePATH/*/properties/soap.client.props
+
+
+echo
+echo
+echo
+echo "Completed
+</xmp>
+</pre>
+</body>
+</html>"
+

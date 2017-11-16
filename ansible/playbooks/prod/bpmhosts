@@ -1,0 +1,19 @@
+[all:vars]
+ansible_ssh_common_args=' -o ProxyCommand="ssh -W %h:%p wbcgwy01"'
+[allservers]
+nzakuap184wbcr2 ansible_host=10.230.144.17 ansible_port=22
+nzakuap186wbcr2 ansible_host=10.230.144.19 ansible_port=22
+nzakuap233wbcr2 ansible_host=10.230.144.48 ansible_port=22
+nzakuap234wbcr2 ansible_host=10.230.144.49 ansible_port=22
+wbcgwy01 ansible_host=10.234.89.107 ansible_port=22
+[bpmprod]
+nzakuap184wbcr2
+nzakuap186wbcr2
+nzakuap233wbcr2
+nzakuap234wbcr2
+[bpmprodDmgr]
+nzakuap184wbcr2
+[bpmprodNoDmgr]
+nzakuap186wbcr2
+nzakuap233wbcr2
+nzakuap234wbcr2

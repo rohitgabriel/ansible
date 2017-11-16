@@ -1,0 +1,71 @@
+- name: Installs IHS 8.5 
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/ihs.yml
+  become: false
+  tasks:
+
+
+    - name: create group and map user
+      group:
+        name: ihs 
+        state: present
+
+    - name: create user
+      user:
+        name: ihs
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+        groups: ihs
+
+    - name: create directories for IHS
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: ihs
+        group: ihs
+      with_items:
+        - "{{ ihs_install_dir }}"
+        - "{{ ihs_binaries_dir }}"
+
+    - name: Install unzip package
+      package:
+        name: unzip
+        state: present
+
+    - name: Check that the file exists
+      stat:
+        path: "{{ ihs_binaries_dir }}/{{ item }}"
+      with_items:
+        - "{{ ihs_package1 }}"
+        - "{{ ihs_package2 }}"
+        - "{{ ihs_package3 }}"
+      register: binaries_exist 
+
+    - name: extract package
+      unarchive:
+        src: http://192.168.1.200/{{ item }}
+        dest: "{{ ihs_binaries_dir }}" 
+        remote_src: True
+      with_items:
+        - "{{ ihs_binary_package1 }}"
+        - "{{ ihs_binary_package2 }}"
+        - "{{ ihs_binary_package3 }}"
+#      when: binaries_exist.stat.isdir is defined and binaries_exist.stat.isdir
+
+
+    - template:
+        src: roles/common/templates/ihs-responsefile.j2
+        dest: "{{ ihs_binaries_dir }}/ihs-responsefile.txt"
+        owner: ihs
+        group: ihs
+        mode: '0600'
+
+    - name: Install ihs
+      command: '"{{ im_install_dir }}"/tools/imcl input "{{ ihs_binaries_dir }}/ihs-responsefile.txt" -log "{{ ihs_binaries_dir }}"/ihs85install.log -acceptLicense -showProgress -dataLocation "{{ imagentdata_dir }}"' 
+      register: install
+    - debug: var=install 
+

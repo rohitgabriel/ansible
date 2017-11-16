@@ -1,0 +1,21 @@
+im_dir: /opt/IBM/InstallationManager
+bpm_im_dir: /opt/IBM/WebSphere/InstallationManager
+
+imagentdata_dir: /opt/IBM/WebSphere/IMAgentdata
+imshared_dir: /opt/IBM/WebSphere/BPMShared
+
+im_binaries_dir: /var/tmp/remotesrc
+install_dir: /opt/IBM/WebSphere/BPM/v8.5
+logdir: /var/tmp
+
+sourcedir: CIRATS_Sept_2017/BPMLite_iFixes
+fixpackage1: 8.5.6.2-WS-BPM-IFJR57397.zip 
+fp1_rname: 8.5.6.2-WS-BPM-IFJR57397
+fixpackage2: 8.5.6.2-WS-BPM-IFJR56800.zip
+fp2_rname: 8.5.6.2-WS-BPM-IFJR56800
+fixpackage3: 8.5.6.2-WS-BPM-IFJR57478.zip
+fp3_rname: 8.5.6.2-WS-BPM-IFJR57478
+fixpackage4: 8.5.6.2-WS-BPM-IFJR57590.zip
+fp4_rname: 8.5.6.2-WS-BPM-IFJR57590
+fixpackage5: 8.5.6.2-WS-BPM-IFJR52897.zip
+fp5_rname: 8.5.6.2-WS-BPM-IFJR52897

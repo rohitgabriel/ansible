@@ -1,0 +1,44 @@
+- name: List Qmgr serverStatus
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/mq.yml
+  #become: true
+  tasks:
+
+    # - name: list Qmgr status
+    #   listQmgr:  mqmdir=/opt/mqm/
+    #   become: true
+    #   become_user: mqm
+    #   register: listQmgr
+    # - debug: var=listQmgr
+
+    - name: Run shc
+      script: roles/common/scripts/mq-shc.sh
+      args:
+        chdir: /tmp
+      become: true
+      become_user: mqm
+
+    - name: finding files
+      find:
+       paths:            "{{ find_where }}"
+       patterns:         "{{ find_what }}"
+       recurse:          "no"
+       file_type:        "file"
+      register: find_result
+
+# \/ for debugging
+    - name: print find_result
+      debug: var=find_result
+
+    - name: Copy the file to 691
+      fetch:
+        src: "{{ item.path }}"
+        dest: "{{ shc_dest }}"
+        flat: yes
+      with_items: "{{ find_result.files }}"
+      become: true
+      become_user: mqm
+      register: copy
+    - debug: var=copy
+

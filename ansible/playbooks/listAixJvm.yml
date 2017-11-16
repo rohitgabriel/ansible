@@ -1,0 +1,22 @@
+- name: Lists JVMs in WebSphere 8.5
+  hosts: "{{ variable_host }}"
+#  vars_files:
+#    - roles/common/vars/iim.yml
+#    - roles/common/vars/was.yml
+#  become: true
+#  become_user: root 
+#  ansible_become_method: su
+#  become_flags: '-s /bin/sh'
+  #environment:
+  #  PATH: "{{ ansible_env.PATH }}:/opt/python2.7/bin"
+  tasks:
+
+
+    - name: list ManagedAppServers status
+      listJVM:  wasdir=/usr/WebSphere/AppServer profilename=nzakuap102wbcx2-maximo-node
+      become: true
+      become_user: wasuser
+#      ansible_become_method: su
+#      become_flags: '-s /bin/sh'
+      register: serverstatus
+    - debug: var=serverstatus

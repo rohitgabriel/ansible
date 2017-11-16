@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agent-input clean='true' temporary='true'>
+<server>
+<repository location="{{ im_binaries_dir }}"/>
+</server>
+<install>
+<offering features='agent_core,agent_jre' id='com.ibm.cic.agent' version="{{ im_version }}"/>
+</install>
+<profile kind='self' installLocation="{{ im_install_dir }}" id="{{ im_version }}">
+</profile>
+</agent-input>

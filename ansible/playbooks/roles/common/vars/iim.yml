@@ -1,0 +1,10 @@
+binary_package_name: agent.installer.linux.gtk.x86_64_1.8.3000.20150606_0047.zip
+base_dir: /opt/IBM
+im_dir: /opt/IBM/InstallationManager
+bpm_im_dir: /opt/IBM/WebSphere/InstallationManager
+imagentdata_dir: /opt/IBM/IMAgentData
+imshared_dir: /opt/IBM/IMShared
+im_install_dir: /root/IBM/InstallationManager/eclipse
+im_version: 1.8.3000.20150606_0047
+im_binaries_dir: /tmp/remotesrc
+bpm_binaries_dir: /tmp/remotesrc

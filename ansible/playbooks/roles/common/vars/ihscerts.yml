@@ -1,0 +1,9 @@
+webserver: http://10.230.232.249 
+local_source: /opt/IBM/HTTPServer/htdocs/certs 
+remote_dest: /opt/IBM/HTTPServer/keys
+backupfile: /opt/IBM/HTTPServer/keys.tgz
+keys_dir: /opt/IBM/HTTPServer/keys
+source_kdb_name: odmserver-training.kdb 
+source_sth_name: odmserver-training.sth
+dest_kdb_name: odmservertraining.kdb 
+dest_sth_name: odmservertraining.sth

@@ -1,0 +1,68 @@
+- name: Patching IHS Plugins
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/plg7patch.yml
+  #become: false
+  tasks:
+
+#    - name: stop IHS 
+#      systemd: name=ibmihs state=stopped 
+#      become: true
+#      become_user: root 
+#      register: stopIHS
+#    - debug: var=stopIHS
+
+    - name: Backup Plugins directory 
+      archive: 
+        path: /opt/IBM/HTTPServer/Plugins 
+        dest: /var/tmp/Plugins.tgz
+        become: true
+        become_user: root
+      register: backupProfile
+    - debug: var=backupProfile
+
+    - name: create repo directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+      with_items:
+        - "{{ maintenance_dir }}"
+
+
+    - name: extract package
+      unarchive:
+        src: /opt/IBM/HTTPServer/htdocs/updi/updateinstaller-70043.zip
+        dest: "{{ maintenance_dir }}"
+#        remote_src: True
+
+    - name: copy fixpack
+      copy:
+        src: /opt/IBM/HTTPServer/htdocs/70043/{{ fixpack_name }}
+        dest: "{{ package_dir }}"
+#        remote_src: True
+        mode: 0777
+#      with_items:
+#        - "{{ fixpack_name }}"
+
+
+    - name: Create PLG responsefile 
+      template:
+        src: roles/common/templates/plg7-patch-responsefile.j2
+        dest: "{{ responsefile_path }}/installPLG.txt"
+        mode: 0777
+
+    - name: Ifix or fixpack installation
+      was7patch: state=present updi_package_path="{{ binaries_dir }}" install_dir="{{ install_dir }}" maintenance_dir="{{ package_dir }}" responsefiles=installPLG.txt fixpack_name="{{ fixpack_name }}"
+      become: true
+      become_user: root 
+      register: ifix
+    - debug: var=ifix
+
+    - name: delete repo directories
+      file:
+        path: "{{ package_dir }}"
+        state: absent
+
+
+

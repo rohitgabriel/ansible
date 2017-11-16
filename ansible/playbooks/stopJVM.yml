@@ -1,0 +1,35 @@
+- name: stops JVMs in WebSphere 8.5
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/was.yml
+  #become: false
+  #environment:
+  #  PATH: "{{ ansible_env.PATH }}:/opt/python2.7/bin"
+  tasks:
+
+    - name: list ManagedAppServers status
+      listJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=ManagedAppServers
+      become: true
+      become_user: wasuser
+      register: serverstatus
+    - debug: var=serverstatus
+
+    - name: stop JVM's
+      stopJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=ManagedAppServers 
+#username=admin password=admin
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: stopJVM
+    - debug: var=stopJVM
+
+#    - name: stop JVM's
+#      environment:
+#          PATH: "{{ ansible_env.PATH }}:/opt/python2.7/bin"
+#      stopJVM:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr 
+##username=admin password=admin
+#      #no_log: true
+#      register: stopJVM
+#    - debug: var=stopJVM
+

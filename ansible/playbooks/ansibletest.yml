@@ -1,0 +1,13 @@
+- name: simple ansible test
+  hosts: bpmint 
+  become: false
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/opt/python2.7/bin"
+  tasks:
+
+
+    - name: get the uptime
+      raw: uptime 
+      register: serverstatus
+    - debug: var=serverstatus
+

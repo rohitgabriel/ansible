@@ -1,0 +1,52 @@
+- name: Renew IHS certs  
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/ihscerts.yml
+  become: true
+  become_user: ihs
+  tasks:
+
+
+
+    - name: Backup IHS
+      archive:
+        path: "{{ keys_dir }}" 
+        dest: "{{ backupfile }}"
+      register: backupcerts
+    - debug: var=backupcerts
+
+#    - name: copy new certs 
+#      get_url:
+#        url: "{{ webserver }}/{{ local_sourcedir }}/{{ kdb_name }}"
+#        dest: "{{ keys_dir }}"
+#        mode: 0640 
+
+#    - name: copy new stash file 
+#      get_url:
+#        url: "{{ webserver }}/{{ local_sourcedir }}/{{ sth_name }}"
+#        dest: "{{ keys_dir }}"
+#        mode: 0640 
+
+    - name: copy new kdb file
+      copy:
+        src: "{{ local_source }}/{{ source_kdb_name }}" 
+        dest: "{{ keys_dir }}/{{ dest_kdb_name }}" 
+        mode: 0640
+
+    - name: copy new stash file
+      copy:
+        src: "{{ local_source }}/{{ source_sth_name }}" 
+        dest: "{{ keys_dir }}/{{ dest_sth_name }}" 
+        mode: 0640
+
+
+    - name: restart IHS 
+      service: name=ibmihs state=restarted 
+      no_log: false
+      become: true
+      become_user: root 
+      register: restartIHS
+    - debug: var=restartIHS
+
+
+

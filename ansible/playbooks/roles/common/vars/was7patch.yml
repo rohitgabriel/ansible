@@ -1,0 +1,14 @@
+package_dir: /var/tmp/maintenance/updateinstaller-70043/maintenance
+binaries_dir: /var/tmp/maintenance/updateinstaller-70043/
+im_binaries_dir: /var/tmp/maintenance/updateinstaller-70043/
+sourcedir: 70043
+backupdir: /var/tmp
+maintenance_dir: /var/tmp/maintenance
+responsefile_path: /var/tmp/maintenance/updateinstaller-70043/responsefiles/
+install_dir: /opt/IBM/WebSphere/AppServer/
+was_install_dir: /opt/IBM/WebSphere/AppServer/
+updi_package_name: updateinstaller-70043.zip
+fixpack_name: 7.0.0-WS-WAS-LinuxX64-FP0000043.pak
+was_fixpack_name: 7.0.0-WS-WAS-LinuxX64-FP0000043.pak
+fixpackage1: updateinstaller-70043.zip
+fp1_rname: updateinstaller-70043

@@ -1,0 +1,14 @@
+- name: BPM Profile upgrade 
+  hosts: "{{ variable_host }}"
+  tasks:
+
+
+    - name: start DMGR 
+      startDmgr:  wasdir=/opt/IBM/WebSphere/BPM/v8.0/ profilename=Dmgr
+      become: true
+      become_user: wasuser
+      #no_log: true
+      register: startJVM
+    - debug: var=startJVM
+
+

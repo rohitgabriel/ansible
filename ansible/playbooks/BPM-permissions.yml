@@ -1,0 +1,74 @@
+- name: Setting ISEC security OSR ownerships
+  hosts: "{{ variable_host }}" 
+  vars_files:
+    - roles/common/vars/bpm.yml
+  become: true
+  tasks:
+
+
+    - name: Set ownership for install root recursively
+      file:
+        path: "{{ InstallRoot }}"
+        state: directory
+        mode: 0755
+        recurse: yes
+        owner: "{{ wasuser }}"
+        group: "{{ wasgrp }}" 
+
+
+    - name: set ownership for property files 
+      file:
+        path: "{{ item }}"
+        mode: 0640
+        owner: "{{ wasuser }}"
+        group: "{{ wasgrp }}"
+      with_items:
+        - "{{ PropertiesBase }}/{{ tracesettings }}"
+        - "{{ PropertiesBase }}/{{ clientpolicy }}"
+        - "{{ PropertiesBase }}/{{ client_types }}"
+        - "{{ PropertiesBase }}/{{ implfactory }}"
+        - "{{ PropertiesBase }}/{{ sas_client_props }}"
+        - "{{ PropertiesBase }}/{{ sas_stdclient_props }}"
+        - "{{ PropertiesBase }}/{{ sas_tools_props }}"
+        - "{{ PropertiesBase }}/{{ soap_client_props }}"
+        - "{{ PropertiesBase }}/{{ wsadmin_properties }}"
+        - "{{ PropertiesBase }}/{{ wsjass_client_conf }}"
+        - "{{ PropertiesBase }}/{{ ipc_client_props }}"
+        - "{{ PropertiesDmgr }}/{{ tracesettings }}"
+        - "{{ PropertiesDmgr }}/{{ clientpolicy }}"
+        - "{{ PropertiesDmgr }}/{{ client_types }}"
+        - "{{ PropertiesDmgr }}/{{ implfactory }}"
+        - "{{ PropertiesDmgr }}/{{ sas_client_props }}"
+        - "{{ PropertiesDmgr }}/{{ sas_stdclient_props }}"
+        - "{{ PropertiesDmgr }}/{{ sas_tools_props }}"
+        - "{{ PropertiesDmgr }}/{{ soap_client_props }}"
+        - "{{ PropertiesDmgr }}/{{ wsadmin_properties }}"
+        - "{{ PropertiesDmgr }}/{{ wsjass_client_conf }}"
+        - "{{ PropertiesDmgr }}/{{ ipc_client_props }}"
+        - "{{ PropertiesNode }}/{{ tracesettings }}"
+        - "{{ PropertiesNode }}/{{ clientpolicy }}"
+        - "{{ PropertiesNode }}/{{ client_types }}"
+        - "{{ PropertiesNode }}/{{ implfactory }}"
+        - "{{ PropertiesNode }}/{{ sas_client_props }}"
+        - "{{ PropertiesNode }}/{{ sas_stdclient_props }}"
+        - "{{ PropertiesNode }}/{{ sas_tools_props }}"
+        - "{{ PropertiesNode }}/{{ soap_client_props }}"
+        - "{{ PropertiesNode }}/{{ wsadmin_properties }}"
+        - "{{ PropertiesNode }}/{{ wsjass_client_conf }}"
+        - "{{ PropertiesNode }}/{{ ipc_client_props }}"
+        - "{{ SecurityDmgrPATH }}"
+        - "{{ SecurityPATH }}"
+
+
+    - name: Set bin ownership
+      file:
+        path: "{{ InstallRoot }}/bin"
+        state: directory
+        mode: 0755
+        recurse: yes
+        group: wasgrp 
+        owner: wasuser 
+
+
+
+

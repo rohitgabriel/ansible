@@ -1,0 +1,20 @@
+- name: Installs IHS 8.5 
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/ihs.yml
+  become: false
+  tasks:
+    - name: create ihs conf file
+      template:
+        src: roles/common/templates/httpd-conf.j2
+        dest: "{{ ihs_install_dir }}/conf/httpd.conf"
+        owner: ihs
+        group: ihs
+        mode: '0600'
+
+    - name: start ihs
+      raw: '"{{ ihs_install_dir }}"/bin/apachectl -k start' 
+      register: start
+    - debug: var=start 
+

@@ -1,0 +1,71 @@
+- name: Installs WAS 8.5 
+  hosts: "{{ variable_host }}"
+  vars_files:
+    - roles/common/vars/iim.yml
+    - roles/common/vars/was.yml
+  become: false
+  tasks:
+
+
+    - name: create group and map user
+      group:
+        name: wasgrp 
+        state: present
+
+    - name: create user
+      user:
+        name: wasuser 
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+        groups: wasgrp 
+
+    - name: create directories for WAS
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: wasuser 
+        group: wasgrp 
+      with_items:
+        - "{{ was_install_dir }}"
+        - "{{ was_binaries_dir }}"
+
+    - name: Install unzip package
+      package:
+        name: unzip
+        state: present
+
+    - name: Check that the file exists
+      stat:
+        path: "{{ was_binaries_dir }}/{{ item }}"
+      with_items:
+        - "{{ was_package1 }}"
+        - "{{ was_package2 }}"
+        - "{{ was_package3 }}"
+      register: binaries_exist 
+
+    - name: extract package
+      unarchive:
+        src: http://192.168.1.200/{{ item }}
+        dest: "{{ was_binaries_dir }}" 
+        remote_src: True
+      with_items:
+        - "{{ was_binary_package1 }}"
+        - "{{ was_binary_package2 }}"
+        - "{{ was_binary_package3 }}"
+#      when: binaries_exist.stat.isdir is defined and binaries_exist.stat.isdir
+
+
+    - template:
+        src: roles/common/templates/was-responsefile.j2
+        dest: "{{ was_binaries_dir }}/was-responsefile.txt"
+        owner: wasuser 
+        group: wasgrp 
+        mode: '0600'
+
+    - name: Install WAS 
+      command: '"{{ im_install_dir }}"/tools/imcl input "{{ was_binaries_dir }}/was-responsefile.txt" -log "{{ was_binaries_dir }}"/was85install.log -acceptLicense -showProgress -dataLocation "{{ imagentdata_dir }}"' 
+#      register: install
+#    - debug: var=install 
+

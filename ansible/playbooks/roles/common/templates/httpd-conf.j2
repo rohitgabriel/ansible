@@ -1,0 +1,365 @@
+
+### Section 1: Global Environment
+ServerRoot "/opt/IBM/HTTPServer"
+#LockFile logs/accept.lock
+PidFile logs/httpd.pid
+Timeout 10
+KeepAlive On
+MaxKeepAliveRequests 500
+KeepAliveTimeout 30
+
+# ThreadLimit: maximum setting of ThreadsPerChild
+# ServerLimit: maximum setting of StartServers
+# StartServers: initial number of server processes to start
+# MaxClients: maximum number of simultaneous client connections
+# MinSpareThreads: minimum number of worker threads which are kept spare
+# MaxSpareThreads: maximum number of worker threads which are kept spare
+# ThreadsPerChild: constant number of worker threads in each server process
+# MaxRequestsPerChild: maximum number of requests a server process serves
+<IfModule worker.c>
+ThreadLimit         25
+ServerLimit         80
+StartServers        10
+MaxClients        2000
+MinSpareThreads    500
+MaxSpareThreads    501
+ThreadsPerChild     25
+MaxRequestsPerChild  1000
+</IfModule>
+
+Listen {{ ansible_eth0['ipv4']['address'] }}:80
+#Listen 127.0.0.1:443
+
+LoadModule authz_host_module modules/mod_authz_host.so
+LoadModule auth_basic_module modules/mod_auth_basic.so
+LoadModule authn_file_module modules/mod_authn_file.so
+LoadModule authz_user_module modules/mod_authz_user.so
+#LoadModule authz_groupfile_module modules/mod_authz_groupfile.so
+LoadModule include_module modules/mod_include.so
+LoadModule log_config_module modules/mod_log_config.so
+LoadModule env_module modules/mod_env.so
+#LoadModule mime_magic_module modules/mod_mime_magic.so
+#LoadModule expires_module modules/mod_expires.so
+#LoadModule headers_module modules/mod_headers.so
+LoadModule unique_id_module modules/mod_unique_id.so
+LoadModule setenvif_module modules/mod_setenvif.so
+#LoadModule proxy_module modules/mod_proxy.so
+#LoadModule proxy_connect_module modules/mod_proxy_connect.so
+#LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+#LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule mime_module modules/mod_mime.so
+#LoadModule dav_module modules/mod_dav.so
+#LoadModule dav_fs_module modules/mod_dav_fs.so
+LoadModule autoindex_module modules/mod_autoindex.so
+#LoadModule asis_module modules/mod_asis.so
+#LoadModule info_module modules/mod_info.so
+LoadModule cgid_module modules/mod_cgid.so
+LoadModule dir_module modules/mod_dir.so
+LoadModule actions_module modules/mod_actions.so
+#LoadModule speling_module modules/mod_speling.so
+#LoadModule userdir_module modules/mod_userdir.so
+LoadModule alias_module modules/mod_alias.so
+#LoadModule rewrite_module modules/mod_rewrite.so
+#LoadModule deflate_module modules/mod_deflate.so
+LoadModule status_module modules/mod_status.so
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule ibm_ssl_module modules/mod_ibm_ssl.so
+LoadModule headers_module modules/mod_headers.so
+
+<IfModule mod_status.c>
+ExtendedStatus On
+</IfModule>
+
+### Section 2: 'Main' server configuration
+User ihs
+Group wasgrp
+
+#ServerAdmin you@your.address
+ServerName {{ ansible_hostname }}:80
+UseCanonicalName Off
+DocumentRoot "/opt/IBM/HTTPServer/htdocs"
+
+<Directory />
+#    Options FollowSymLinks
+    AllowOverride None
+    FileETag All -INode
+</Directory>
+
+#
+# This should be changed to whatever you set DocumentRoot to.
+#
+<Directory "/opt/IBM/HTTPServer/htdocs">
+
+#    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+
+</Directory>
+
+DirectoryIndex index.html index.html.var
+
+AccessFileName .htaccess
+
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+</Files>
+
+TypesConfig conf/mime.types
+
+DefaultType None
+
+<IfModule mod_mime_magic.c>
+    MIMEMagicFile conf/magic
+</IfModule>
+
+HostnameLookups Off
+EnableSendfile off
+
+
+ErrorDocument 400 /index.html
+ErrorDocument 401 /index.html
+ErrorDocument 402 /index.html
+ErrorDocument 403 /index.html
+ErrorDocument 404 /index.html
+ErrorDocument 405 /index.html
+ErrorDocument 406 /index.html
+ErrorDocument 407 /index.html
+ErrorDocument 408 /index.html
+ErrorDocument 409 /index.html
+ErrorDocument 410 /index.html
+ErrorDocument 411 /index.html
+ErrorDocument 412 /index.html
+ErrorDocument 413 /index.html
+ErrorDocument 414 /index.html
+ErrorDocument 415 /index.html
+ErrorDocument 500 /index.html
+ErrorDocument 501 /index.html
+ErrorDocument 502 /index.html
+ErrorDocument 503 /index.html
+ErrorDocument 504 /index.html
+#################error_log###################
+ErrorLog /opt/IBM/HTTPServer/logs/error_log
+LogLevel debug
+#LogLevel warn
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%h %l %u %t \"%r\" %>s %b" common
+LogFormat "%{Referer}i -> %U" referer
+LogFormat "%{User-agent}i" agent
+#CustomLog "|bin/rotatelogs.exe -l logs/access.%Y%m%d-%H%M%S.log 5M" common
+CustomLog /opt/IBM/HTTPServer/logs/access_log common
+#CustomLog logs/referer_log referer
+#CustomLog logs/agent_log agent
+#CustomLog logs/access_log combined
+#
+#AddServerHeader Off
+ServerTokens Prod
+ServerSignature Off
+
+Alias /icons/ "/opt/IBM/HTTPServer/icons/"
+
+<Directory "/opt/IBM/HTTPServer/icons">
+    Options MultiViews
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+ScriptAlias /cgi-bin/ "/opt/IBM/HTTPServer/cgi-bin/"
+
+<IfModule mod_cgid.c>
+</IfModule>
+
+<Directory "/opt/IBM/HTTPServer/cgi-bin">
+    AllowOverride None
+    Options None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+IndexOptions FancyIndexing VersionSort
+#
+AddIconByEncoding (CMP,/icons/compressed.gif) x-compress x-gzip
+
+AddIconByType (TXT,/icons/text.gif) text/*
+AddIconByType (IMG,/icons/image2.gif) image/*
+AddIconByType (SND,/icons/sound2.gif) audio/*
+AddIconByType (VID,/icons/movie.gif) video/*
+
+AddIcon /icons/binary.gif .bin .exe
+AddIcon /icons/binhex.gif .hqx
+AddIcon /icons/tar.gif .tar
+AddIcon /icons/world2.gif .wrl .wrl.gz .vrml .vrm .iv
+AddIcon /icons/compressed.gif .Z .z .tgz .gz .zip
+AddIcon /icons/a.gif .ps .ai .eps
+AddIcon /icons/layout.gif .html .shtml .htm .pdf
+AddIcon /icons/text.gif .txt
+AddIcon /icons/c.gif .c
+AddIcon /icons/p.gif .pl .py
+AddIcon /icons/f.gif .for
+AddIcon /icons/dvi.gif .dvi
+AddIcon /icons/uuencoded.gif .uu
+AddIcon /icons/script.gif .conf .sh .shar .csh .ksh .tcl
+AddIcon /icons/tex.gif .tex
+AddIcon /icons/bomb.gif core
+
+AddIcon /icons/back.gif ..
+AddIcon /icons/hand.right.gif README
+AddIcon /icons/folder.gif ^^DIRECTORY^^
+AddIcon /icons/blank.gif ^^BLANKICON^^
+DefaultIcon /icons/unknown.gif
+ReadmeName README.html
+HeaderName HEADER.html
+
+IndexIgnore .??* *~ *# HEADER* README* RCS CVS *,v *,t
+
+AddEncoding x-compress Z
+AddEncoding x-gzip gz tgz
+AddType application/x-tar .tgz
+AddType image/x-icon .ico
+BrowserMatch "Mozilla/2" nokeepalive
+BrowserMatch "MSIE 4\.0b2;" nokeepalive downgrade-1.0 force-response-1.0
+BrowserMatch "RealPlayer 4\.0" force-response-1.0
+BrowserMatch "Java/1\.0" force-response-1.0
+BrowserMatch "JDK/1\.0" force-response-1.0
+
+BrowserMatch "Microsoft Data Access Internet Publishing Provider" redirect-carefully
+BrowserMatch "^WebDrive" redirect-carefully
+BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
+BrowserMatch "^gnome-vfs" redirect-carefully
+
+<IfModule mod_status.c>
+<Location /server-status>
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+</Location>
+</IfModule>
+
+
+### Section 3: Virtual Hosts
+# VirtualHost example:
+#<VirtualHost *>
+#    ServerAdmin webmaster@dummy-host.example.com
+#    DocumentRoot /www/docs/dummy-host.example.com
+#    ServerName dummy-host.example.com
+#    ErrorLog logs/dummy-host.example.com-error_log
+#    CustomLog logs/dummy-host.example.com-access_log common
+#</VirtualHost>
+
+<VirtualHost {{ ansible_eth0['ipv4']['address'] }}:80>
+ServerName {{ ansible_hostname }}
+  # Turning on Rewrite Engine
+  RewriteEngine on
+RewriteLog "/opt/IBM/HTTPServer/logs/rewrite_https.log"
+RewriteLogLevel 1
+#RewriteCond %{SERVER_PORT} =80
+#RewriteRule ^(.*) https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+  # Prevent health check from being re-written
+#  RewriteCond %{REQUEST_URI} !^/static\.html$
+#  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+#  RewriteLog "/log/ihs/rewrite_log"
+#  RewriteLogLevel 0
+
+  DocumentRoot /opt/IBM/HTTPServer/htdocs
+  <Directory /opt/IBM/HTTPServer/htdocs>
+    AllowOverride None
+    Options None
+    Order allow,deny
+    allow from all
+  </Directory>
+</VirtualHost>
+
+#<VirtualHost 127.0.0.1:443>
+
+#  DocumentRoot /opt/IBM/HTTPServer/docroot
+#  RewriteEngine on
+ # RewriteLog "/log/ihs/rewrite_log"
+ # RewriteLogLevel 2
+  # Need to use mod_rewrite to ensure we catch the trace requests with mod_security
+ # RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+ # RewriteRule .* - [F]
+  # Extra logs for SSL
+#  LogFormat "%h %l %u %t \"%r\" %>s %b \"SSL=%{HTTPS}e\" \"%{HTTPS_CIPHER}e\" \"%{HTTPS_KEYSIZE}e\" \"%{HTTPS_SECRETKEYSIZE}e\"" ssl_common
+#  CustomLog /log/ihs/ssl_request_log ssl_common
+
+
+
+#        Keyfile /opt/IBM/HTTPServer/keys/mahereprod.kdb
+#        SSLStashfile /opt/IBM/HTTPServer/keys/mahereprod.sth
+#        SSLEnable
+#	SSLFIPSEnable
+   #     SSLProtocolEnable TLSv12
+   #	SSLProtocolDisable SSLv2 SSLv3 TLSv1 TLSv11
+   #	SSLCipherSpec TLSv12 +C023 +C024 +C027 +C028 +C02B +C02C +C02F +C030 +35 +9C +9D +3C +3D +2F +35b +3A +32 +3b +30
+#        SSLClientAuth none
+# Delete some specific ciphers from the protocols
+#SSLProtocolDisable SSLv2 SSLv3 TLSv10 TLSv11
+#        SSLCipherSpec TLSv10 -34 -35
+#        SSLCipherSpec TLSv11 +2F -35b -3A -34 -35
+#        SSLCipherSpec TLSv12 +TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 +TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 +TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 -TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 -9C -9D -3C -3D -2F -35b -3A -35
+#        SSLCipherSpec 34
+#        SSLCipherSpec 35
+#        SSLCipherSpec 3A
+
+#</VirtualHost>
+#SSLDisable
+
+# mod_mpmstats logs statistics about server activity to the main
+# error log.  No records are written while the server is idle.
+LoadModule mpmstats_module modules/debug/mod_mpmstats.so
+<IfModule mod_mpmstats.c>
+ReportInterval 600
+# Include details of active module in the statistics.
+TrackModules On
+</IfModule>
+
+# EnableExceptionHook allows modules such as mod_backtrace and
+# mod_whatkilledus to run after a crash and gather additional
+# diagnostic information.
+# EnableExceptionHook must be "on" in order to use mod_backtrace or
+# mod_whatkilledus.
+EnableExceptionHook On
+LoadModule backtrace_module modules/debug/mod_backtrace.so
+
+# mod_whatkilledus will record information about the current request
+# and connection to the error log at the time of a crash.  This is
+# important information for diagnosing the cause of the crash.
+LoadModule whatkilledus_module modules/debug/mod_whatkilledus.so
+
+# mod_net_trace will record actual data sent/received from the client
+# and on proxy connections, even for SSL connections.  Unlike an IP
+# trace, interaction with the platform network APIs can be seen.
+# The following example configuration can be activated by uncommenting
+# the LoadModule directive.
+#LoadModule net_trace_module modules/debug/mod_net_trace.so
+<IfModule mod_net_trace.c>
+NetTraceFile /tmp/nettrace
+NetTrace client * dest file event senddata=65535 event recvdata=65535
+</IfModule>
+#LoadModule was_ap22_module /opt/IBM/Plugins/bin/64bits/mod_was_ap22_http.so
+#WebSpherePluginConfig /opt/IBM/HTTPServer/conf/plugin-cfg.xml
+#LoadModule was_ap22_module /opt/IBM/Plugins/bin/64bits/mod_was_ap22_http.so
+#WebSpherePluginConfig /opt/IBM/Plugins/config/plugin-cfg.xml
+#<Location /Curam>
+#    SetHandler server-info
+#    Order allow,deny
+#    Allow from all
+#    Allow from 158.87.194.132
+#</Location>
+#<Location /MDTWorkspace>
+#    SetHandler server-info
+#    Order allow,deny
+#    Allow from all
+#    Allow from 158.87.194.132
+#</Location>
+#<Location /p2pd>
+#    SetHandler server-info
+#    Order allow,deny
+#    Allow from all
+#    Allow from 158.87.194.132
+#</Location>
+#Header always append X-Frame-Options SAMEORIGIN
+#PMR 38337,120,796
+#SSLTrace
